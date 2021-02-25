@@ -1,10 +1,22 @@
 import { useContext } from 'react';
 import { ChallengesContext } from '../contexts/ChallengesContext';
+import { CountdownContext } from '../contexts/CountdownContext';
 import styles from '../styles/components/ChallengeBox.module.css';
 
 export function ChallengeBox(){
 
-    const {activeChallenge, resetChallenge} = useContext(ChallengesContext);
+    const {activeChallenge, resetChallenge, completeChallenge} = useContext(ChallengesContext);
+    const {resetarContagem} = useContext(CountdownContext);
+
+    function lidarDesafioFalho(){
+        resetChallenge();
+        resetarContagem();
+    }
+
+    function lidarDesafioCompleto(){
+        completeChallenge();
+        resetarContagem();
+    }
     
     return (
         <div className={styles.challengeBoxContainer}>
@@ -24,13 +36,14 @@ export function ChallengeBox(){
                         <button
                         type="button"
                         className={styles.challengeFailedButton}
-                        onClick={resetChallenge}
+                        onClick={lidarDesafioFalho}
                         >
                             falhei
                         </button>
                         <button
                         type="button"
                         className={styles.challengeCompletedButton}
+                        onClick={lidarDesafioCompleto}
                         >
                             completei
                         </button>
